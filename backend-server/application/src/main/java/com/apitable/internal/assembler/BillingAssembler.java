@@ -40,20 +40,38 @@ public class BillingAssembler {
     public InternalSpaceSubscriptionVo toVo(SubscriptionInfo subscriptionInfo) {
         SubscriptionFeature billingPlanFeature = subscriptionInfo.getFeature();
         InternalSpaceSubscriptionVo subscriptionVo = new InternalSpaceSubscriptionVo();
-        subscriptionVo.setMaxCalendarViewsInSpace(
-            billingPlanFeature.getCalendarViewNums().getValue());
-        subscriptionVo.setMaxGalleryViewsInSpace(
-            billingPlanFeature.getGalleryViewNums().getValue());
-        subscriptionVo.setMaxGanttViewsInSpace(billingPlanFeature.getGanttViewNums().getValue());
-        subscriptionVo.setMaxKanbanViewsInSpace(billingPlanFeature.getKanbanViewNums().getValue());
-        subscriptionVo.setMaxRowsInSpace(billingPlanFeature.getTotalRows().getValue());
-        subscriptionVo.setMaxRowsPerSheet(billingPlanFeature.getRowsPerSheet().getValue());
-        subscriptionVo.setMaxArchivedRowsPerSheet(
-            billingPlanFeature.getArchivedRowsPerSheet().getValue());
-        subscriptionVo.setMaxMessageCredits(billingPlanFeature.getMessageCreditNums().getValue());
-        subscriptionVo.setMaxWidgetNums(billingPlanFeature.getWidgetNums().getValue());
-        subscriptionVo.setMaxAutomationRunsNums(
-            billingPlanFeature.getAutomationRunNumsPerMonth().getValue());
+        
+        // Handle unlimited values (-1) by setting to null
+        Long calendarViews = billingPlanFeature.getCalendarViewNums().getValue();
+        subscriptionVo.setMaxCalendarViewsInSpace(calendarViews < 0 ? null : calendarViews);
+        
+        Long galleryViews = billingPlanFeature.getGalleryViewNums().getValue();
+        subscriptionVo.setMaxGalleryViewsInSpace(galleryViews < 0 ? null : galleryViews);
+        
+        Long ganttViews = billingPlanFeature.getGanttViewNums().getValue();
+        subscriptionVo.setMaxGanttViewsInSpace(ganttViews < 0 ? null : ganttViews);
+        
+        Long kanbanViews = billingPlanFeature.getKanbanViewNums().getValue();
+        subscriptionVo.setMaxKanbanViewsInSpace(kanbanViews < 0 ? null : kanbanViews);
+        
+        Long totalRows = billingPlanFeature.getTotalRows().getValue();
+        subscriptionVo.setMaxRowsInSpace(totalRows < 0 ? null : totalRows);
+        
+        Long rowsPerSheet = billingPlanFeature.getRowsPerSheet().getValue();
+        subscriptionVo.setMaxRowsPerSheet(rowsPerSheet < 0 ? null : rowsPerSheet);
+        
+        Long archivedRows = billingPlanFeature.getArchivedRowsPerSheet().getValue();
+        subscriptionVo.setMaxArchivedRowsPerSheet(archivedRows < 0 ? null : archivedRows);
+        
+        Long messageCredits = billingPlanFeature.getMessageCreditNums().getValue();
+        subscriptionVo.setMaxMessageCredits(messageCredits < 0 ? null : messageCredits);
+        
+        Long widgetNums = billingPlanFeature.getWidgetNums().getValue();
+        subscriptionVo.setMaxWidgetNums(widgetNums < 0 ? null : widgetNums);
+        
+        Long automationRuns = billingPlanFeature.getAutomationRunNumsPerMonth().getValue();
+        subscriptionVo.setMaxAutomationRunsNums(automationRuns < 0 ? null : automationRuns);
+        
         subscriptionVo.setAllowEmbed(billingPlanFeature.getAllowEmbed().getValue());
         subscriptionVo.setAllowOrgApi(billingPlanFeature.getAllowOrgApi().getValue());
         return subscriptionVo;
@@ -67,8 +85,11 @@ public class BillingAssembler {
      */
     public InternalSpaceApiUsageVo toApiUsageVo(SubscriptionFeature planFeature) {
         InternalSpaceApiUsageVo vo = new InternalSpaceApiUsageVo();
-        vo.setMaxApiUsageCount(planFeature.getApiCallNumsPerMonth().getValue());
-        vo.setApiCallNumsPerMonth(planFeature.getApiCallNumsPerMonth().getValue());
+        
+        // Handle unlimited values (-1) by setting to null
+        Long apiCallNums = planFeature.getApiCallNumsPerMonth().getValue();
+        vo.setMaxApiUsageCount(apiCallNums < 0 ? null : apiCallNums);
+        vo.setApiCallNumsPerMonth(apiCallNums < 0 ? null : apiCallNums);
         vo.setIsAllowOverLimit(true);
         return vo;
     }
@@ -81,7 +102,10 @@ public class BillingAssembler {
      */
     public InternalSpaceApiRateLimitVo toApiRateLimitVo(SubscriptionFeature planFeature) {
         InternalSpaceApiRateLimitVo vo = new InternalSpaceApiRateLimitVo();
-        vo.setQps(planFeature.getApiQpsNums().getValue());
+        
+        // Handle unlimited values (-1) by setting to null
+        Long qps = planFeature.getApiQpsNums().getValue();
+        vo.setQps(qps < 0 ? null : qps);
         return vo;
     }
 }

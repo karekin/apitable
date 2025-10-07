@@ -62,22 +62,22 @@ public class DefaultSubscriptionFeature implements SubscriptionFeature {
 
     @Override
     public Seat getSeat() {
-        return new Seat(2L);
+        return new Seat(5L); // 5 seats for free users
     }
 
     @Override
     public CapacitySize getCapacitySize() {
-        return new CapacitySize(1024 * 1024 * 1024L);
+        return new CapacitySize(1024 * 1024 * 1024L); // 1GB for free users
     }
 
     @Override
     public FileNodeNums getFileNodeNums() {
-        return new FileNodeNums(5L);
+        return new FileNodeNums(30L); // 30 file nodes for free users
     }
 
     @Override
     public RowsPerSheet getRowsPerSheet() {
-        return new RowsPerSheet(100L);
+        return new RowsPerSheet(100L); // 100 rows per sheet for free users
     }
 
     @Override
@@ -87,58 +87,58 @@ public class DefaultSubscriptionFeature implements SubscriptionFeature {
 
     @Override
     public TotalRows getTotalRows() {
-        return new TotalRows(250L);
+        return new TotalRows(20000L); // 20,000 rows for free users
     }
 
     @Override
     public MirrorNums getMirrorNums() {
-        return new MirrorNums(-1L);
+        return new MirrorNums(5L); // 5 mirrors for free users
     }
 
     @Override
     public AdminNums getAdminNums() {
-        return new AdminNums(-1L);
+        return new AdminNums(3L); // 3 admins for free users
     }
 
     @Override
     public ApiCallNumsPerMonth getApiCallNumsPerMonth() {
-        return new ApiCallNumsPerMonth(-1L);
+        return new ApiCallNumsPerMonth(10000L); // 10,000 API calls per month for free users
     }
 
 
     @Override
     public WidgetNums getWidgetNums() {
-        return new WidgetNums(-1L);
+        return new WidgetNums(30L); // 30 widgets for free users
     }
 
     @Override
     public AutomationRunNumsPerMonth getAutomationRunNumsPerMonth() {
-        return new AutomationRunNumsPerMonth(-1L);
+        return new AutomationRunNumsPerMonth(100L); // 100 automation runs per month for free users
     }
 
     @Override
     public FormNums getFormNums() {
-        return new FormNums(-1L);
+        return new FormNums(20L); // 20 forms for free users
     }
 
     @Override
     public GanttViewNums getGanttViewNums() {
-        return new GanttViewNums(-1L);
+        return new GanttViewNums(10L); // 10 Gantt views for free users
     }
 
     @Override
     public CalendarViewNums getCalendarViewNums() {
-        return new CalendarViewNums(-1L);
+        return new CalendarViewNums(5L); // 5 calendar views for free users
     }
 
     @Override
     public FieldPermissionNums getFieldPermissionNums() {
-        return new FieldPermissionNums(-1L);
+        return new FieldPermissionNums(10L); // 10 field permissions for free users
     }
 
     @Override
     public NodePermissionNums getNodePermissionNums() {
-        return new NodePermissionNums(-1L);
+        return new NodePermissionNums(10L); // 10 node permissions for free users
     }
 
     @Override

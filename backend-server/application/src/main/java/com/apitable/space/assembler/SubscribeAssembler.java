@@ -58,25 +58,62 @@ public class SubscribeAssembler {
         int defaultCycleDayOfMonth = now.with(lastDayOfMonth()).getDayOfMonth();
         result.setCycleDayOfMonth(subscriptionInfo.cycleDayOfMonth(defaultCycleDayOfMonth));
         SubscriptionFeature feature = subscriptionInfo.getFeature();
-        result.setMaxSeats(feature.getSeat().getValue());
-        result.setMaxCapacitySizeInBytes(feature.getCapacitySize().getValue().toBytes());
-        result.setMaxSheetNums(feature.getFileNodeNums().getValue());
-        result.setMaxRowsPerSheet(feature.getRowsPerSheet().getValue());
-        result.setMaxRowsInSpace(feature.getTotalRows().getValue());
-        result.setMaxAdminNums(feature.getAdminNums().getValue());
-        result.setMaxMirrorNums(feature.getMirrorNums().getValue());
-        result.setMaxApiCall(feature.getApiCallNumsPerMonth().getValue());
-        result.setApiCallNumsPerMonth(feature.getApiCallNumsPerMonth().getValue());
-        result.setMaxGalleryViewsInSpace(feature.getGalleryViewNums().getValue());
-        result.setMaxKanbanViewsInSpace(feature.getKanbanViewNums().getValue());
-        result.setMaxFormViewsInSpace(feature.getFormNums().getValue());
-        result.setMaxGanttViewsInSpace(feature.getGanttViewNums().getValue());
-        result.setMaxCalendarViewsInSpace(feature.getCalendarViewNums().getValue());
-        result.setFieldPermissionNums(feature.getFieldPermissionNums().getValue());
-        result.setNodePermissionNums(feature.getNodePermissionNums().getValue());
-        result.setMaxMessageCredits(feature.getMessageCreditNums().getValue());
-        result.setMaxAutomationRunNums(feature.getAutomationRunNumsPerMonth().getValue());
-        result.setMaxWidgetNums(feature.getWidgetNums().getValue());
+        
+        // Handle unlimited values (-1) by setting to null
+        Long maxSeats = feature.getSeat().getValue();
+        result.setMaxSeats(maxSeats < 0 ? null : maxSeats);
+        
+        Long maxCapacity = feature.getCapacitySize().getValue().toBytes();
+        result.setMaxCapacitySizeInBytes(maxCapacity < 0 ? null : maxCapacity);
+        
+        Long maxSheetNums = feature.getFileNodeNums().getValue();
+        result.setMaxSheetNums(maxSheetNums < 0 ? null : maxSheetNums);
+        
+        Long maxRowsPerSheet = feature.getRowsPerSheet().getValue();
+        result.setMaxRowsPerSheet(maxRowsPerSheet < 0 ? null : maxRowsPerSheet);
+        
+        Long maxRowsInSpace = feature.getTotalRows().getValue();
+        result.setMaxRowsInSpace(maxRowsInSpace < 0 ? null : maxRowsInSpace);
+        
+        Long maxAdminNums = feature.getAdminNums().getValue();
+        result.setMaxAdminNums(maxAdminNums < 0 ? null : maxAdminNums);
+        
+        Long maxMirrorNums = feature.getMirrorNums().getValue();
+        result.setMaxMirrorNums(maxMirrorNums < 0 ? null : maxMirrorNums);
+        
+        Long maxApiCall = feature.getApiCallNumsPerMonth().getValue();
+        result.setMaxApiCall(maxApiCall < 0 ? null : maxApiCall);
+        result.setApiCallNumsPerMonth(maxApiCall < 0 ? null : maxApiCall);
+        
+        Long maxGalleryViews = feature.getGalleryViewNums().getValue();
+        result.setMaxGalleryViewsInSpace(maxGalleryViews < 0 ? null : maxGalleryViews);
+        
+        Long maxKanbanViews = feature.getKanbanViewNums().getValue();
+        result.setMaxKanbanViewsInSpace(maxKanbanViews < 0 ? null : maxKanbanViews);
+        
+        Long maxFormViews = feature.getFormNums().getValue();
+        result.setMaxFormViewsInSpace(maxFormViews < 0 ? null : maxFormViews);
+        
+        Long maxGanttViews = feature.getGanttViewNums().getValue();
+        result.setMaxGanttViewsInSpace(maxGanttViews < 0 ? null : maxGanttViews);
+        
+        Long maxCalendarViews = feature.getCalendarViewNums().getValue();
+        result.setMaxCalendarViewsInSpace(maxCalendarViews < 0 ? null : maxCalendarViews);
+        
+        Long fieldPermissionNums = feature.getFieldPermissionNums().getValue();
+        result.setFieldPermissionNums(fieldPermissionNums < 0 ? null : fieldPermissionNums);
+        
+        Long nodePermissionNums = feature.getNodePermissionNums().getValue();
+        result.setNodePermissionNums(nodePermissionNums < 0 ? null : nodePermissionNums);
+        
+        Long maxMessageCredits = feature.getMessageCreditNums().getValue();
+        result.setMaxMessageCredits(maxMessageCredits < 0 ? null : maxMessageCredits);
+        
+        Long maxAutomationRuns = feature.getAutomationRunNumsPerMonth().getValue();
+        result.setMaxAutomationRunNums(maxAutomationRuns < 0 ? null : maxAutomationRuns);
+        
+        Long maxWidgetNums = feature.getWidgetNums().getValue();
+        result.setMaxWidgetNums(maxWidgetNums < 0 ? null : maxWidgetNums);
         result.setControlFormBrandLogo(feature.getControlFormBrandLogo().getValue());
 
         result.setIntegrationFeishu(feature.getSocialConnect().getValue());

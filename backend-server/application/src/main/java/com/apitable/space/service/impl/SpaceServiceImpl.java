@@ -830,7 +830,82 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, SpaceEntity>
             aiServiceFacade.getUsedCreditCount(spaceId, dateRange.getCycleStartDate(),
                 dateRange.getCycleEndDate());
         spaceInfoVO.setUsedCredit(usedCredit);
+        
+        // Set subscription limits for cockpit display
+        setSubscriptionLimits(spaceInfoVO, subscriptionInfo, spaceId, capacityUsedSize);
+        
         return spaceInfoVO;
+    }
+
+    /**
+     * Set subscription limits for cockpit display.
+     *
+     * @param spaceInfoVO space info vo
+     * @param subscriptionInfo subscription info
+     * @param spaceId space id
+     * @param capacityUsedSize current capacity used
+     */
+    private void setSubscriptionLimits(SpaceInfoVO spaceInfoVO, SubscriptionInfo subscriptionInfo, 
+                                     String spaceId, Long capacityUsedSize) {
+        SubscriptionFeature feature = subscriptionInfo.getFeature();
+        
+        // Set seat limits
+        Long maxSeats = feature.getSeat().getValue();
+        spaceInfoVO.setMaxSeats(maxSeats < 0 ? null : maxSeats); // null means unlimited
+        
+        // Set file node limits
+        Long maxFileNodes = feature.getFileNodeNums().getValue();
+        spaceInfoVO.setMaxFileNodes(maxFileNodes < 0 ? null : maxFileNodes); // null means unlimited
+        
+        // Set capacity limits
+        Long maxCapacity = feature.getCapacitySize().getValue().toBytes();
+        spaceInfoVO.setMaxCapacitySize(maxCapacity < 0 ? null : maxCapacity); // null means unlimited
+        
+        // Set row limits
+        Long maxRowsPerSheet = feature.getRowsPerSheet().getValue();
+        spaceInfoVO.setMaxRowsPerSheet(maxRowsPerSheet < 0 ? null : maxRowsPerSheet);
+        
+        Long maxRowsInSpace = feature.getTotalRows().getValue();
+        spaceInfoVO.setMaxRowsInSpace(maxRowsInSpace < 0 ? null : maxRowsInSpace);
+        
+        // Set API usage limits
+        Long maxApiCalls = feature.getApiCallNumsPerMonth().getValue();
+        spaceInfoVO.setMaxApiCallsPerMonth(maxApiCalls < 0 ? null : maxApiCalls);
+        spaceInfoVO.setMaxApiRequestCount(maxApiCalls < 0 ? null : maxApiCalls);
+        
+        // Set advanced views limits
+        Long maxGanttViews = feature.getGanttViewNums().getValue();
+        spaceInfoVO.setMaxGanttViewsInSpace(maxGanttViews < 0 ? null : maxGanttViews);
+        
+        Long maxCalendarViews = feature.getCalendarViewNums().getValue();
+        spaceInfoVO.setMaxCalendarViewsInSpace(maxCalendarViews < 0 ? null : maxCalendarViews);
+        
+        Long maxFormViews = feature.getFormNums().getValue();
+        spaceInfoVO.setMaxFormViewsInSpace(maxFormViews < 0 ? null : maxFormViews);
+        
+        Long maxMirrorNums = feature.getMirrorNums().getValue();
+        spaceInfoVO.setMaxMirrorNums(maxMirrorNums < 0 ? null : maxMirrorNums);
+        
+        // Set other benefits limits
+        Long fieldPermissionNums = feature.getFieldPermissionNums().getValue();
+        spaceInfoVO.setFieldPermissionNums(fieldPermissionNums < 0 ? null : fieldPermissionNums);
+        
+        Long nodePermissionNums = feature.getNodePermissionNums().getValue();
+        spaceInfoVO.setNodePermissionNums(nodePermissionNums < 0 ? null : nodePermissionNums);
+        
+        Long maxAdminNums = feature.getAdminNums().getValue();
+        spaceInfoVO.setMaxAdminNums(maxAdminNums < 0 ? null : maxAdminNums);
+        
+        Long maxWidgetNums = feature.getWidgetNums().getValue();
+        spaceInfoVO.setMaxWidgetNums(maxWidgetNums < 0 ? null : maxWidgetNums);
+        
+        Long maxAutomationRunNums = feature.getAutomationRunNumsPerMonth().getValue();
+        spaceInfoVO.setMaxAutomationRunNums(maxAutomationRunNums < 0 ? null : maxAutomationRunNums);
+        
+        // Set current usage
+        long currentFileNodeCount = getNodeCountBySpaceId(spaceId, NodeType::isFolder);
+        spaceInfoVO.setCurrentFileNodeCount(currentFileNodeCount);
+        spaceInfoVO.setCurrentCapacityUsed(capacityUsedSize);
     }
 
     private SpaceInfoVO transform(SpaceEntity entity) {

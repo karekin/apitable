@@ -16,21 +16,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.apitable.internal.vo;
+package com.apitable.shared.support.serializer;
 
-import com.apitable.shared.support.serializer.UnlimitedNumberSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import java.io.IOException;
 
 /**
- * space subscription plan resource view.
+ * <p>
+ * Unlimited Number serialization - null values are serialized as "unlimited" string.
+ * </p>
+ *
+ * @author Chambers
  */
-@Data
-@Schema(description = "space subscription plan resource view")
-public class InternalSpaceApiRateLimitVo {
+public class UnlimitedNumberSerializer extends JsonSerializer<Number> {
 
-    @Schema(description = "api request numbers per seconds", example = "false")
-    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
-    private Long qps;
+    @Override
+    public void serialize(Number value, JsonGenerator gen, SerializerProvider serializers)
+        throws IOException {
+        if (value == null) {
+            gen.writeString("unlimited");
+        } else {
+            gen.writeNumber(value.longValue());
+        }
+    }
 }

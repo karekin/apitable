@@ -20,6 +20,7 @@ package com.apitable.internal.vo;
 
 import com.apitable.shared.support.serializer.NullBooleanSerializer;
 import com.apitable.shared.support.serializer.NullNumberSerializer;
+import com.apitable.shared.support.serializer.UnlimitedNumberSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -45,11 +46,11 @@ public class InternalSpaceApiUsageVo {
     private Long apiCallUsedNumsCurrentMonth;
 
     @Schema(description = "maximum api usage", example = "60000", deprecated = true)
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     @Deprecated(since = "1.8.0", forRemoval = true)
     private Long maxApiUsageCount;
 
     @Schema(description = "maximum api usage", example = "60000")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long apiCallNumsPerMonth;
 }

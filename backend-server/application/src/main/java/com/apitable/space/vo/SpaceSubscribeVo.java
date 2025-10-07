@@ -22,6 +22,7 @@ import cn.hutool.core.date.DatePattern;
 import com.apitable.shared.support.serializer.NullArraySerializer;
 import com.apitable.shared.support.serializer.NullBooleanSerializer;
 import com.apitable.shared.support.serializer.NullNumberSerializer;
+import com.apitable.shared.support.serializer.UnlimitedNumberSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
@@ -73,7 +74,7 @@ public class SpaceSubscribeVo {
     private Integer cycleDayOfMonth;
 
     @Schema(description = "seat(unit: people)", example = "10")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxSeats;
 
     @Schema(description = "capacity(unit: MB)", example = "10")
@@ -81,7 +82,7 @@ public class SpaceSubscribeVo {
     private Long maxCapacitySizeInBytes;
 
     @Schema(description = "sheet number(unit: table)", example = "10")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxSheetNums;
 
     @Schema(description = "max rows per sheet(unit: row)", example = "10")
@@ -89,7 +90,7 @@ public class SpaceSubscribeVo {
     private Long maxRowsPerSheet;
 
     @Schema(description = "max rows in space(unit: row)", example = "10")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxRowsInSpace;
 
     @Schema(description = "api usage limit(unit: count)", example = "10", deprecated = true)
@@ -98,11 +99,11 @@ public class SpaceSubscribeVo {
     private Long maxApiCall;
 
     @Schema(description = "api call number per month", example = "10")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long apiCallNumsPerMonth;
 
     @Schema(description = "admin nums(unit: person)", example = "10")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxAdminNums;
 
     @Schema(description = "days of storage in trash(unit: day)", example = "10")
@@ -110,31 +111,31 @@ public class SpaceSubscribeVo {
     private Long maxRemainTrashDays;
 
     @Schema(description = "max gallery views in space(unit: view)", example = "10")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxGalleryViewsInSpace;
 
     @Schema(description = "max kanban views in space(unit: view)", example = "10")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxKanbanViewsInSpace;
 
     @Schema(description = "max form views in space(unit: form)", example = "10")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxFormViewsInSpace;
 
     @Schema(description = "max gantt views in space(unit: view)", example = "10")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxGanttViewsInSpace;
 
     @Schema(description = "max calendar views in space(unit: view)", example = "10")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxCalendarViewsInSpace;
 
     @Schema(description = "max field permission nums(unit: unit)", example = "10")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long fieldPermissionNums;
 
     @Schema(description = "max node permission nums(unit: unit)", example = "10")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long nodePermissionNums;
 
     @Schema(description = "number of days the time machine retains data(unit: day)", example = "10")
@@ -216,15 +217,15 @@ public class SpaceSubscribeVo {
     private Boolean auditQuery;
 
     @Schema(description = "the maximum credit number for ai query(unit: int)", example = "1000")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxMessageCredits;
 
     @Schema(description = "the maximum automation count (unit: int)", example = "100")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxAutomationRunNums;
 
     @Schema(description = "the maximum Widget count (unit: int)", example = "30")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxWidgetNums;
 
     @Schema(description = "complimentary unexpired capacity(unit：byte)", type = "java.lang.String",
@@ -246,7 +247,7 @@ public class SpaceSubscribeVo {
     private Boolean securitySettingCatalogManagement;
 
     @Schema(description = "max mirror nums(unit: mirror)", example = "5")
-    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
     private Long maxMirrorNums;
 
     @Schema(description = "whether can control form brand log", example = "false")

@@ -23,6 +23,7 @@ import com.apitable.shared.support.serializer.ImageSerializer;
 import com.apitable.shared.support.serializer.LocalDateTimeToMilliSerializer;
 import com.apitable.shared.support.serializer.NullBooleanSerializer;
 import com.apitable.shared.support.serializer.NullNumberSerializer;
+import com.apitable.shared.support.serializer.UnlimitedNumberSerializer;
 import com.apitable.shared.support.serializer.NullStringSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -185,5 +186,78 @@ public class SpaceInfoVO {
             type = "java.util.List", example = "[\"RENDER_PROMPT\", \"ASYNC_COMPUTE\", \"ROBOT\"]")
     private List<String> labsKeys;
 
+    @Schema(description = "Maximum number of seats allowed", example = "2")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxSeats;
+
+    @Schema(description = "Maximum number of file nodes allowed", example = "5")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxFileNodes;
+
+    @Schema(description = "Maximum attachment capacity allowed (in bytes)", example = "1073741824")
+    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    private Long maxCapacitySize;
+
+    @Schema(description = "Maximum number of rows per sheet", example = "100")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxRowsPerSheet;
+
+    @Schema(description = "Maximum total rows in space", example = "250")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxRowsInSpace;
+
+    @Schema(description = "Current file node count", example = "7")
+    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    private Long currentFileNodeCount;
+
+    @Schema(description = "Current attachment capacity used (in bytes)", example = "15360000")
+    @JsonSerialize(nullsUsing = NullNumberSerializer.class)
+    private Long currentCapacityUsed;
+
+    @Schema(description = "Maximum API calls per month", example = "1000")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxApiCallsPerMonth;
+
+    @Schema(description = "Maximum API request count", example = "1000")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxApiRequestCount;
+
+    // 高级视图相关字段
+    @Schema(description = "Maximum Gantt views in space", example = "5")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxGanttViewsInSpace;
+
+    @Schema(description = "Maximum calendar views in space", example = "5")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxCalendarViewsInSpace;
+
+    @Schema(description = "Maximum form views in space", example = "5")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxFormViewsInSpace;
+
+    @Schema(description = "Maximum mirror numbers", example = "5")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxMirrorNums;
+
+    // 其他权益相关字段
+    @Schema(description = "Maximum field permission numbers", example = "5")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long fieldPermissionNums;
+
+    @Schema(description = "Maximum node permission numbers", example = "5")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long nodePermissionNums;
+
+    @Schema(description = "Maximum admin numbers", example = "1")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxAdminNums;
+
+    @Schema(description = "Maximum widget numbers", example = "30")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxWidgetNums;
+
+    @Schema(description = "Maximum automation run numbers", example = "100")
+    @JsonSerialize(nullsUsing = UnlimitedNumberSerializer.class)
+    private Long maxAutomationRunNums;
 
 }
