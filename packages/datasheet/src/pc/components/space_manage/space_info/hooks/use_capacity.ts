@@ -64,7 +64,7 @@ export const useCapacity: IUseCapacity = ({ subscription, spaceInfo }) => {
   }, [subscription, spaceInfo]);
   return useMemo(() => {
     // 处理无限制情况
-    const isUnlimited = allTotal === "unlimited" || allTotal === null || allTotal === undefined;
+    const isUnlimited = allTotal === 'unlimited' || allTotal === null || allTotal === undefined;
     const numericAllTotal = isUnlimited ? -1 : Number(allTotal);
     
     // Total

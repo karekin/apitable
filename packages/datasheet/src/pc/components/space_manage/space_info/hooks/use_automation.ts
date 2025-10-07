@@ -32,13 +32,13 @@ export const useAutomation = ({ subscription, spaceInfo }: IHooksParams): IHooks
   }, [subscription, spaceInfo]);
   return useMemo(() => {
     // 处理无限制情况
-    const isUnlimited = total === "unlimited" || total === null || total === undefined;
+    const isUnlimited = total === 'unlimited' || total === null || total === undefined;
     const numericTotal = isUnlimited ? -1 : Number(total);
     const remain = isUnlimited ? -1 : Math.max(0, numericTotal - used);
     const usedText = used.toLocaleString();
-    const totalText = isUnlimited ? "unlimited" : numericTotal.toLocaleString();
+    const totalText = isUnlimited ? 'unlimited' : numericTotal.toLocaleString();
     const usedPercent = isUnlimited ? 0 : decimalCeil(getPercent(used / numericTotal) * 100);
-    const remainText = isUnlimited ? "unlimited" : remain.toLocaleString();
+    const remainText = isUnlimited ? 'unlimited' : remain.toLocaleString();
     const remainPercent = isUnlimited ? 0 : Math.max(0, 100 - usedPercent);
     return {
       used,
