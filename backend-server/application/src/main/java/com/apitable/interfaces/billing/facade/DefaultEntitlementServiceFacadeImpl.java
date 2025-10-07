@@ -19,19 +19,29 @@
 package com.apitable.interfaces.billing.facade;
 
 import com.apitable.interfaces.billing.model.DefaultSubscriptionInfo;
+import com.apitable.interfaces.billing.model.PaidSubscriptionInfo;
 import com.apitable.interfaces.billing.model.SubscriptionFeature;
 import com.apitable.interfaces.billing.model.SubscriptionInfo;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * default entitlement service facade implement.
  */
+@Component
 public class DefaultEntitlementServiceFacadeImpl implements EntitlementServiceFacade {
+
+    @Value("${APITABLE_USE_PAID_SUBSCRIPTION:false}")
+    private boolean usePaidSubscription;
 
     @Override
     public SubscriptionInfo getSpaceSubscription(String spaceId) {
+        if (usePaidSubscription) {
+            return new PaidSubscriptionInfo();
+        }
         return new DefaultSubscriptionInfo();
     }
 
