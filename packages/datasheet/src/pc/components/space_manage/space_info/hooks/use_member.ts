@@ -23,24 +23,29 @@ import { getPercent } from '../utils';
 
 export const useMember = ({ subscription, spaceInfo }: IHooksParams): IHooksResult => {
   const { seatUsage, total } = useMemo(() => {
+    // 优先使用新的字段，支持无限制显示
+    const maxSeats = spaceInfo?.maxSeats || subscription?.maxSeats || 0;
     return {
       seatUsage: spaceInfo?.seatUsage || { total: 0, chatBotCount: 0, memberCount: 0 },
-      total: subscription?.maxSeats || 0,
+      total: maxSeats,
     };
   }, [subscription, spaceInfo]);
 
   return useMemo(() => {
-    const remain = Math.max(0, total - seatUsage.total);
+    // 处理无限制情况
+    const isUnlimited = total === "unlimited" || total === null || total === undefined;
+    const numericTotal = isUnlimited ? -1 : Number(total);
+    const remain = isUnlimited ? -1 : Math.max(0, numericTotal - seatUsage.total);
     const usedText = seatUsage.total.toLocaleString();
-    const totalText = total.toLocaleString();
-    const usedPercent = decimalCeil(getPercent(seatUsage.total / total) * 100);
-    const remainText = remain.toLocaleString();
-    const remainPercent = Math.max(0, 100 - usedPercent);
+    const totalText = isUnlimited ? "unlimited" : numericTotal.toLocaleString();
+    const usedPercent = isUnlimited ? 0 : decimalCeil(getPercent(seatUsage.total / numericTotal) * 100);
+    const remainText = isUnlimited ? "unlimited" : remain.toLocaleString();
+    const remainPercent = isUnlimited ? 0 : Math.max(0, 100 - usedPercent);
 
     return {
       used: seatUsage.total,
       usedText,
-      total,
+      total: numericTotal,
       totalText,
       remain,
       usedPercent,

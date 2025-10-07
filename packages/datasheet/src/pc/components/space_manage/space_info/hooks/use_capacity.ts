@@ -47,6 +47,10 @@ export const useCapacity: IUseCapacity = ({ subscription, spaceInfo }) => {
   const { allUsed, allTotal, used, total, giftUsed, giftTotal } = useMemo(() => {
     const allUsed = spaceInfo?.capacityUsedSizes || 0;
     const giftUsed = spaceInfo?.giftCapacityUsedSizes || 0;
+    
+    // 优先使用 spaceInfo 中的新字段，支持无限制显示
+    const maxCapacitySize = spaceInfo?.maxCapacitySize || subscription?.maxCapacitySizeInBytes || 0;
+    
     return {
       used: Math.max(allUsed - giftUsed, 0),
       total: subscription?.subscriptionCapacity || 0,
@@ -55,20 +59,24 @@ export const useCapacity: IUseCapacity = ({ subscription, spaceInfo }) => {
       giftTotal: subscription?.unExpireGiftCapacity || 0,
 
       allUsed,
-      allTotal: subscription?.maxCapacitySizeInBytes || 0,
+      allTotal: maxCapacitySize,
     };
   }, [subscription, spaceInfo]);
   return useMemo(() => {
+    // 处理无限制情况
+    const isUnlimited = allTotal === "unlimited" || allTotal === null || allTotal === undefined;
+    const numericAllTotal = isUnlimited ? -1 : Number(allTotal);
+    
     // Total
-    const allRemain = allTotal - allUsed;
+    const allRemain = isUnlimited ? -1 : (numericAllTotal - allUsed);
     const allUsedArr = byteMGArr(allUsed);
     const allUsedText = `${allUsedArr[0]}${allUsedArr[1]}`;
-    const allTotalArr = byteMGArr(allTotal);
-    const allTotalText = `${allTotalArr[0]}${allTotalArr[1]}`;
-    const allUsedPercent = decimalCeil(getPercent(allUsedArr[2] / allTotalArr[2]) * 100);
-    const allRemainArr = byteMGArr(allRemain, false);
-    const allRemainText = `${allRemainArr[0]}${allRemainArr[1]}`;
-    const allRemainPercent = 100 - allUsedPercent;
+    const allTotalArr = isUnlimited ? [0, 'GB'] : byteMGArr(numericAllTotal);
+    const allTotalText = isUnlimited ? t(Strings.unlimited) : `${allTotalArr[0]}${allTotalArr[1]}`;
+    const allUsedPercent = isUnlimited ? 0 : decimalCeil(getPercent(allUsedArr[2] / allTotalArr[2]) * 100);
+    const allRemainArr = isUnlimited ? [0, 'GB'] : byteMGArr(allRemain, false);
+    const allRemainText = isUnlimited ? t(Strings.unlimited) : `${allRemainArr[0]}${allRemainArr[1]}`;
+    const allRemainPercent = isUnlimited ? 0 : (100 - allUsedPercent);
 
     // Subscription
     const remain = total - used;
@@ -93,16 +101,16 @@ export const useCapacity: IUseCapacity = ({ subscription, spaceInfo }) => {
     const giftRemainText = `${giftRemainArr[0]}${giftRemainArr[1]}`;
     const giftRemainPercent = 100 - giftUsedPercent;
 
-    if (allTotal === -1) {
+    if (isUnlimited) {
       return {
         allUsed,
         allUsedText,
-        allTotal,
-        allTotalText: '-1',
+        allTotal: numericAllTotal,
+        allTotalText,
         allRemain,
         allUsedPercent: allUsed ? 5 : 0,
         allRemainPercent: allUsed ? 95 : 100,
-        allRemainText: t(Strings.unlimited),
+        allRemainText,
 
         used,
         usedText,
@@ -126,7 +134,7 @@ export const useCapacity: IUseCapacity = ({ subscription, spaceInfo }) => {
     return {
       allUsed,
       allUsedText,
-      allTotal,
+      allTotal: numericAllTotal,
       allTotalText,
       allRemain,
       allUsedPercent,

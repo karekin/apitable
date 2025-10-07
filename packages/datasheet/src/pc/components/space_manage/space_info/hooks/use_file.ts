@@ -23,22 +23,27 @@ import { getPercent } from '../utils';
 
 export const useFile = ({ subscription, spaceInfo }: IHooksParams): IHooksResult => {
   const { used, total } = useMemo(() => {
+    // 优先使用新的字段，支持无限制显示
+    const maxFileNodes = spaceInfo?.maxFileNodes || subscription?.maxSheetNums || 0;
     return {
-      used: spaceInfo?.sheetNums || 0,
-      total: subscription?.maxSheetNums || 0,
+      used: spaceInfo?.currentFileNodeCount || spaceInfo?.sheetNums || 0,
+      total: maxFileNodes,
     };
   }, [subscription, spaceInfo]);
   return useMemo(() => {
-    const remain = Math.max(0, total - used);
+    // 处理无限制情况
+    const isUnlimited = total === "unlimited" || total === null || total === undefined;
+    const numericTotal = isUnlimited ? -1 : Number(total);
+    const remain = isUnlimited ? -1 : Math.max(0, numericTotal - used);
     const usedText = used.toLocaleString();
-    const totalText = total.toLocaleString();
-    const usedPercent = decimalCeil(getPercent(used / total) * 100);
-    const remainText = remain.toLocaleString();
-    const remainPercent = Math.max(0, 100 - usedPercent);
+    const totalText = isUnlimited ? "unlimited" : numericTotal.toLocaleString();
+    const usedPercent = isUnlimited ? 0 : decimalCeil(getPercent(used / numericTotal) * 100);
+    const remainText = isUnlimited ? "unlimited" : remain.toLocaleString();
+    const remainPercent = isUnlimited ? 0 : Math.max(0, 100 - usedPercent);
     return {
       used,
       usedText,
-      total,
+      total: numericTotal,
       totalText,
       remain,
       usedPercent,

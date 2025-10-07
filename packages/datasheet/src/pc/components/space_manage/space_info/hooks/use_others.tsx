@@ -21,46 +21,53 @@ import { useThemeColors } from '@apitable/components';
 import { Strings, t } from '@apitable/core';
 import { DeleteFilled, FolderNormalFilled, LockFilled, UserAdminFilled } from '@apitable/icons';
 import { IHooksParams, IMultiLineItemProps } from '../interface';
-import { calcPercent } from './utils';
+import { calcPercent, processTotal } from './utils';
 
 export const useOthers = ({ spaceInfo, subscription }: IHooksParams): IMultiLineItemProps[] => {
   const colors = useThemeColors();
   return useMemo(() => {
+    // 优先使用 spaceInfo 中的新字段，支持无限制显示
+    const fieldPermissionNums = spaceInfo?.fieldPermissionNums || subscription?.fieldPermissionNums;
+    const nodePermissionNums = spaceInfo?.nodePermissionNums || subscription?.nodePermissionNums;
+    const maxAdminNums = spaceInfo?.maxAdminNums || subscription?.maxAdminNums;
+    const maxWidgetNums = spaceInfo?.maxWidgetNums || subscription?.maxWidgetNums;
+    
+    
     return [
       {
         unit: t(Strings.unit_ge),
-        total: subscription?.fieldPermissionNums,
+        total: processTotal(fieldPermissionNums),
         used: spaceInfo?.fieldRoleNums,
         name: t(Strings.field_permission),
         icon: <LockFilled color={colors.black[500]} />,
-        percent: calcPercent(spaceInfo?.fieldRoleNums, subscription?.fieldPermissionNums),
+        percent: calcPercent(spaceInfo?.fieldRoleNums, fieldPermissionNums),
         showProgress: false,
       },
       {
         unit: t(Strings.unit_ge),
-        total: subscription?.nodePermissionNums,
+        total: processTotal(nodePermissionNums),
         used: spaceInfo?.nodeRoleNums,
         name: t(Strings.node_permission),
         icon: <FolderNormalFilled color={colors.black[500]} />,
-        percent: calcPercent(spaceInfo?.nodeRoleNums, subscription?.nodePermissionNums),
+        percent: calcPercent(spaceInfo?.nodeRoleNums, nodePermissionNums),
         showProgress: false,
       },
       {
         unit: t(Strings.unit_ge),
-        total: subscription?.maxAdminNums,
+        total: processTotal(maxAdminNums),
         used: spaceInfo?.adminNums,
         name: t(Strings.admins_per_space),
         icon: <UserAdminFilled color={colors.black[500]} />,
-        percent: calcPercent(spaceInfo?.adminNums, subscription?.maxAdminNums),
+        percent: calcPercent(spaceInfo?.adminNums, maxAdminNums),
         showProgress: false,
       },
       {
         unit: t(Strings.unit_ge),
-        total: subscription?.maxWidgetNums,
+        total: processTotal(maxWidgetNums),
         used: spaceInfo?.widgetNums,
         name: t(Strings.widget_per_space),
         icon: <UserAdminFilled color={colors.black[500]} />,
-        percent: calcPercent(spaceInfo?.widgetNums, subscription?.maxWidgetNums),
+        percent: calcPercent(spaceInfo?.widgetNums, maxWidgetNums),
         showProgress: false,
       },
       {

@@ -82,7 +82,7 @@ export const Card: FC<React.PropsWithChildren<ICardProps>> = (props) => {
   const isLine = shape === 'line';
   const overflow = usedPercent === 100;
   const _strokeColor = overflow ? colors.red[500] : strokeColor;
-  const unLimited = +totalText === -1;
+  const unLimited = +totalText === -1 || totalText === "unlimited";
   const showFakePercent = unLimited && +usedText;
   const percent = useAnimationNum({ value: showFakePercent ? 5 : usedPercent, duration: 1000, easing: 'linear', isFloat: true }) as number;
   const usedTitleText = useAnimationNum({ value: usedText, duration: 1000, easing: 'linear', format: true, isFloat: usedTextIsFloat });

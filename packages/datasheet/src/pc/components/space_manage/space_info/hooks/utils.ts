@@ -16,9 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export const calcPercent = (used: number | undefined, total: number) => {
-  if (!used || !total || total === -1) {
+export const calcPercent = (used: number | undefined, total: number | string | null | undefined) => {
+  // 处理无限制情况
+  if (!used || !total || total === -1 || total === "unlimited" || total === null || total === undefined) {
     return 0;
   }
   return Math.min(Math.ceil((used / total) * 100), 100);
+};
+
+// 处理无限制情况，将 "unlimited" 字符串、null/undefined 转换为 -1
+export const processTotal = (total: number | string | null | undefined) => {
+  if (total === "unlimited" || total === null || total === undefined) {
+    return -1;
+  }
+  return Number(total);
 };

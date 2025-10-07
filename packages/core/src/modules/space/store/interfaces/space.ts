@@ -154,6 +154,26 @@ export interface ISpaceBasicInfo {
   };
   automationRunsNums: number;
   widgetNums: number;
+  
+  // 新增的订阅限制字段
+  maxSeats?: number | string | null;
+  maxFileNodes?: number | string | null;
+  maxCapacitySize?: number | string | null;
+  maxRowsPerSheet?: number | string | null;
+  maxRowsInSpace?: number | string | null;
+  currentFileNodeCount?: number;
+  currentCapacityUsed?: number;
+  maxApiCallsPerMonth?: number | string | null;
+  maxApiRequestCount?: number | string | null;
+  maxGanttViewsInSpace?: number | string | null;
+  maxCalendarViewsInSpace?: number | string | null;
+  maxFormViewsInSpace?: number | string | null;
+  maxMirrorNums?: number | string | null;
+  fieldPermissionNums?: number | string | null;
+  nodePermissionNums?: number | string | null;
+  maxAdminNums?: number | string | null;
+  maxWidgetNums?: number | string | null;
+  maxAutomationRunNums?: number | string | null;
 }
 
 export interface IApp {

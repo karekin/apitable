@@ -109,11 +109,11 @@ export const MultiLineCard: FC<React.PropsWithChildren<IMultiLineCardProps>> = (
                         <span className={cx(styles.used, styles.customFont)}>{item.used ?? '-'}</span>
                         <span
                           className={limitLess ? styles.unit : cx(styles.total, styles.customFont)}
-                          style={limitLess ? { color: limitLessColor } : {}}
+                          style={limitLess ? { color: 'var(--fc1)' } : {}}
                         >
                           / {limitLess ? t(Strings.unlimited) : `${item.total ?? '-'} `}
                         </span>
-                        <span className={cx(styles.unit)} style={limitLess ? { color: limitLessColor } : {}}>
+                        <span className={cx(styles.unit)} style={limitLess ? { color: 'var(--fc1)' } : {}}>
                           {item.unit}
                         </span>
                       </span>
